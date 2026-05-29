@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.liteims.mapper.ProductMapper">
+
+    <select id="findPage" resultType="com.atguigu.liteims.vo.ProductVO">
+        SELECT product.*,
+        category.name as categoryName
+        FROM product
+        left join category on product.category_id = category.id
+        where product.is_deleted=0
+        <if test="name!=null and name!=''">
+            and product.name like concat('%',#{name},'%')
+        </if>
+        <if test="categoryId!=null">
+            and product.category_id = #{categoryId}
+        </if>
+        order by product.id desc
+    </select>
+
+</mapper>
